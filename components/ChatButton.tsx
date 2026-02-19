@@ -8,13 +8,19 @@ interface ChatButtonProps {
   bottomOffset?: string; // For pages with mobile bottom nav
 }
 
-export function ChatButton({ currentEventId, bottomOffset = 'bottom-4 sm:bottom-6' }: ChatButtonProps) {
+export function ChatButton({ currentEventId, bottomOffset }: ChatButtonProps) {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
     <>
-      {/* Chat Button */}
-      <div className={`fixed right-4 ${bottomOffset} z-40`}>
+      {/* Chat Button - mobile: above bottom nav, left of FAB (so it doesn't hide Me tab or profile). Desktop: bottom-right. */}
+      <div
+        className={`fixed z-[44] right-20 lg:right-4 ${
+          bottomOffset
+            ? bottomOffset
+            : 'bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px)+0.5rem)] lg:bottom-6'
+        }`}
+      >
         <button 
           onClick={() => setIsChatOpen(true)}
           className="w-14 h-14 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-200 flex items-center justify-center text-slate-600 dark:text-white shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 btn-elegant focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
