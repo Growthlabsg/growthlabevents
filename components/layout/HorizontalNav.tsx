@@ -18,6 +18,7 @@ import {
 import { Notifications } from '../Notifications';
 import { ThemeToggle } from '../ThemeToggle';
 import { ProfileDropdown } from '../ProfileDropdown';
+import { MobileBottomNav } from './MobileBottomNav';
 
 interface NavItem {
   href: string;
@@ -161,9 +162,12 @@ export const HorizontalNav = () => {
         </div>
       </nav>
 
-      {/* Mobile Top Bar - Always visible */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-700 shadow-sm safe-area-inset-top">
-        <div className="flex items-center justify-between px-3 py-2.5 gap-2">
+      {/* Mobile Top Bar - App-style compact header */}
+      <div
+        className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-700 shadow-sm safe-area-inset-top"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
+        <div className="flex items-center justify-between px-3 py-2.5 gap-2 min-h-[52px]">
           {/* Home Button */}
           <Link
             href="/"
@@ -184,7 +188,7 @@ export const HorizontalNav = () => {
                   key={item.href}
                   href={item.href}
                   className={clsx(
-                    'flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-all',
+                    'flex-shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-full text-xs font-medium transition-all touch-manipulation min-h-[44px]',
                     active
                       ? 'bg-teal-500 text-white shadow-md'
                       : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 active:bg-slate-200 dark:active:bg-slate-600'
@@ -205,11 +209,11 @@ export const HorizontalNav = () => {
         </div>
       </div>
 
-      {/* Mobile Floating Menu Button */}
-      <div className="lg:hidden fixed bottom-4 right-4 z-50" ref={mobileMenuRef}>
+      {/* Mobile Floating Menu Button - above bottom nav */}
+      <div className="lg:hidden fixed right-4 z-[45] bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px)+0.5rem)]" ref={mobileMenuRef}>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="w-14 h-14 bg-teal-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all"
+          className="w-14 h-14 bg-teal-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all touch-manipulation"
         >
           {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
@@ -253,18 +257,21 @@ export const HorizontalNav = () => {
         )}
       </div>
 
-      {/* Scroll to Top Button */}
+      {/* Scroll to Top - above bottom nav on mobile */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-4 left-4 w-12 h-12 bg-slate-800 dark:bg-slate-700 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-600 active:scale-95 transition-all z-50 animate-in fade-in slide-in-from-bottom-2 duration-200"
+          className="fixed left-4 w-12 h-12 bg-slate-800 dark:bg-slate-700 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-600 active:scale-95 transition-all z-[45] animate-in fade-in slide-in-from-bottom-2 duration-200 touch-manipulation bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px)+0.5rem)] lg:bottom-4"
         >
           <ChevronUp className="h-5 w-5" />
         </button>
       )}
 
+      {/* Mobile: bottom tab bar (app-style navigation) */}
+      <MobileBottomNav />
+
       {/* Spacer for mobile fixed header */}
-      <div className="lg:hidden h-16" />
+      <div className="lg:hidden h-14" />
       
       {/* Spacer for desktop fixed floating nav */}
       <div className="hidden lg:block h-20" />
